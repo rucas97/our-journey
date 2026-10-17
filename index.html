@@ -298,6 +298,70 @@ html, body {
 .loading-text span:nth-child(2) { animation-delay: 0.22s; }
 .loading-text span:nth-child(3) { animation-delay: 0.44s; }
 @keyframes dotBlink { 0%, 60%, 100% { opacity: 0; } 30% { opacity: 1; } }
+  .end-gate {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  padding: 12px 10px 10px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,45,120,.18), rgba(124,92,255,.18));
+  border: 1.5px solid rgba(255,45,120,.6);
+  box-shadow:
+    0 0 26px rgba(255,45,120,.55),
+    inset 0 0 16px rgba(255,45,120,.2);
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 6;
+  animation: endPulse 2.2s ease-in-out infinite;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.end-gate:active {
+  background: linear-gradient(135deg, rgba(255,45,120,.4), rgba(124,92,255,.4));
+  box-shadow:
+    0 0 50px rgba(255,45,120,.95),
+    inset 0 0 26px rgba(255,45,120,.45);
+  transform: translateX(-50%) scale(.97);
+}
+@keyframes endPulse {
+  0%, 100% {
+    box-shadow: 0 0 26px rgba(255,45,120,.55), inset 0 0 16px rgba(255,45,120,.2);
+  }
+  50% {
+    box-shadow: 0 0 46px rgba(255,45,120,.95), inset 0 0 24px rgba(255,45,120,.4);
+  }
+}
+.end-gate-icon {
+  font-size: 18px;
+  line-height: 1;
+  color: #ff9ec4;
+  margin-bottom: 5px;
+}
+.end-gate-label {
+  display: block;
+  font: 700 8px/1 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: .3em;
+  color: #ff5f95;
+  margin-bottom: 5px;
+}
+.end-gate-text {
+  display: block;
+  font: 800 11px/1.2 "Inter", system-ui, sans-serif;
+  letter-spacing: .07em;
+  color: #f2f2fa;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.end-gate-hint {
+  display: block;
+  font: 700 7px/1 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: .2em;
+  color: #22d3ee;
+  text-transform: uppercase;
+  opacity: .8;
+}
 </style>
 </head>
 <body>
@@ -442,6 +506,12 @@ html, body {
           <path d="M 50 6 L 47 12 L 50 10 L 53 12 Z" fill="url(#chromeG)"/>
         </svg>
       </div>
+      <div class="end-gate" id="endGate">
+  <div class="end-gate-icon">✦</div>
+  <div class="end-gate-label">CHAPTER 2</div>
+  <div class="end-gate-text">To Be Continued</div>
+  <div class="end-gate-hint">tap or drive into</div>
+      </div>
     </div>
   </main>
 
@@ -525,10 +595,12 @@ SCENE_BACKGROUNDS.push(
   // 9: home at dusk
   svgBg('<defs><linearGradient id="h9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0520"/><stop offset="0.3" stop-color="#5a2050"/><stop offset="0.55" stop-color="#c4666a"/><stop offset="0.75" stop-color="#f0a070"/><stop offset="1" stop-color="#2a1a10"/></linearGradient></defs><rect width="600" height="1000" fill="url(#h9)"/><circle cx="300" cy="680" r="120" fill="#ffcc66" opacity="0.35"/><circle cx="300" cy="680" r="70" fill="#ffe0a0" opacity="0.55"/><g fill="#fff" opacity="0.85"><circle cx="100" cy="100" r="1.5"/><circle cx="200" cy="60" r="1"/><circle cx="400" cy="80" r="1.2"/><circle cx="500" cy="140" r="1"/><circle cx="150" cy="180" r="1"/><circle cx="450" cy="200" r="1.5"/><circle cx="80" cy="260" r="1"/><circle cx="520" cy="280" r="1"/></g><path d="M0 850 Q300 800 600 850 L600 1000 L0 1000 Z" fill="#1a1010"/><ellipse cx="120" cy="820" rx="80" ry="100" fill="#0a0806"/><rect x="115" y="880" width="10" height="60" fill="#0a0806"/><ellipse cx="490" cy="820" rx="90" ry="110" fill="#0a0806"/><rect x="485" y="890" width="10" height="60" fill="#0a0806"/><g><rect x="180" y="720" width="240" height="140" fill="#2a1a1a"/><polygon points="160,720 300,600 440,720" fill="#4a1a2a"/><rect x="280" y="780" width="40" height="80" fill="#1a0a0a"/><rect x="210" y="750" width="45" height="55" fill="#ffd166" opacity="0.92"/><rect x="345" y="750" width="45" height="55" fill="#ffd166" opacity="0.92"/><rect x="210" y="750" width="45" height="55" fill="none" stroke="#1a0a0a" stroke-width="3"/><rect x="345" y="750" width="45" height="55" fill="none" stroke="#1a0a0a" stroke-width="3"/><line x1="232" y1="750" x2="232" y2="805" stroke="#1a0a0a" stroke-width="2"/><line x1="367" y1="750" x2="367" y2="805" stroke="#1a0a0a" stroke-width="2"/><rect x="180" y="720" width="240" height="8" fill="#0a0505"/></g><circle cx="270" cy="690" r="4" fill="#ffe066" opacity="0.75"/><circle cx="330" cy="690" r="4" fill="#ffe066" opacity="0.75"/><circle cx="270" cy="690" r="11" fill="#ffe066" opacity="0.2"/><circle cx="330" cy="690" r="11" fill="#ffe066" opacity="0.2"/>')
 );
-const viewport = document.getElementById('viewport');
+
+  const viewport = document.getElementById('viewport');
 const world = document.getElementById('world');
 const markersEl = document.getElementById('markers');
 const car = document.getElementById('car');
+const endGate = document.getElementById('endGate');
 const modal = document.getElementById('modal');
 const collageEl = document.getElementById('collage');
 const numEl = document.getElementById('num');
@@ -554,12 +626,13 @@ let carH = 100;
 let carMinY = 0;
 let carMaxY = 0;
 let worldHeight = 0;
+let endGateWorldY = 0;
 let vel = 0;
 let gasDown = false;
 let revDown = false;
 let locked = false;
-let ignoreMilestoneId = -1;   // NEW: milestone to skip until we drive away from it
-let currentMilestoneId = -1;  // NEW: tracks which card is open
+let ignoreMilestoneId = -1;
+let currentMilestoneId = -1;
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -591,7 +664,12 @@ function computeLayout() {
     m.worldY = worldHeight - EDGE_BOTTOM - i * SPACING;
     m.el.style.top = (m.worldY - 13) + 'px';
   });
-  carMinY = MILESTONES[MILESTONES.length - 1].worldY - 20;
+
+  endGateWorldY = MILESTONES[MILESTONES.length - 1].worldY - 200;
+  const egH = endGate.offsetHeight || 90;
+  endGate.style.top = (endGateWorldY - egH / 2) + 'px';
+
+  carMinY = endGateWorldY;
   carMaxY = MILESTONES[0].worldY + START_BELOW;
 }
 
@@ -605,7 +683,6 @@ function render() {
   world.style.transform = 'translate3d(0, ' + (-cam) + 'px, 0)';
 }
 
-// CHANGED: glow now shows for any milestone, visited or not
 function updateGlow() {
   let near = false;
   for (const m of MILESTONES) {
@@ -614,19 +691,15 @@ function updateGlow() {
   car.classList.toggle('lit', near);
 }
 
-// NEW: clear the ignore flag once we're far enough away
 function clearIgnoreIfFar() {
   if (ignoreMilestoneId < 0) return;
   const m = MILESTONES[ignoreMilestoneId];
-  if (Math.abs(carCenterY - m.worldY) > 120) {
-    ignoreMilestoneId = -1;
-  }
+  if (Math.abs(carCenterY - m.worldY) > 120) ignoreMilestoneId = -1;
 }
 
-// CHANGED: allow re-opening ANY milestone (forward or reverse)
 function checkArrival() {
   for (const m of MILESTONES) {
-    if (m.id === ignoreMilestoneId) continue;   // skip the one we just closed
+    if (m.id === ignoreMilestoneId) continue;
     if (Math.abs(carCenterY - m.worldY) < 40) {
       vel = 0;
       carCenterY = m.worldY;
@@ -639,12 +712,20 @@ function checkArrival() {
   return false;
 }
 
+function checkEndGate() {
+  if (Math.abs(carCenterY - endGateWorldY) < 50) {
+    resetToStart();
+    return true;
+  }
+  return false;
+}
+
 let lastTime = performance.now();
 function loop(now) {
   const dt = Math.min(50, now - lastTime) / 16.67;
   lastTime = now;
   if (!locked) {
-    clearIgnoreIfFar();                         // NEW
+    clearIgnoreIfFar();
     if (gasDown) vel = Math.max(vel - ACCEL * dt, -MAX_SPEED);
     else if (revDown) vel = Math.min(vel + ACCEL * dt, MAX_SPEED);
     else vel *= Math.pow(0.82, dt);
@@ -653,7 +734,9 @@ function loop(now) {
       carCenterY += vel * dt;
       carCenterY = Math.max(carMinY, Math.min(carMaxY, carCenterY));
       render();
-      if (Math.abs(vel) > 0.4) checkArrival();
+      if (Math.abs(vel) > 0.4) {
+        if (!checkEndGate()) checkArrival();
+      }
       updateGlow();
     }
   }
@@ -663,7 +746,7 @@ requestAnimationFrame(loop);
 
 function openCard(m) {
   locked = true;
-  currentMilestoneId = m.id;          // NEW
+  currentMilestoneId = m.id;
   gasDown = false; revDown = false;
   document.getElementById('pedalGas').classList.remove('pressed');
   document.getElementById('pedalRev').classList.remove('pressed');
@@ -696,12 +779,12 @@ function closeCard() {
   modal.classList.remove('show');
   modal.setAttribute('aria-hidden', 'true');
   locked = false;
-  ignoreMilestoneId = currentMilestoneId;  // NEW: don't instantly re-open this one
-  currentMilestoneId = -1;                 // NEW
+  ignoreMilestoneId = currentMilestoneId;
+  currentMilestoneId = -1;
   if (visited.size === MILESTONES.length) {
-    hint.textContent = 'Road complete — happy birthday';
+    hint.textContent = 'All milestones visited — drive to the gate';
     hint.classList.remove('hidden');
-    setTimeout(() => hint.classList.add('hidden'), 6000);
+    setTimeout(() => hint.classList.add('hidden'), 5000);
   }
 }
 
@@ -710,8 +793,49 @@ function updateProgress() {
   barFill.style.width = (visited.size / MILESTONES.length * 100) + '%';
 }
 
+function resetToStart() {
+  locked = true;
+  gasDown = false; revDown = false;
+  document.getElementById('pedalGas').classList.remove('pressed');
+  document.getElementById('pedalRev').classList.remove('pressed');
+
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden', 'true');
+
+  visited.clear();
+  carCenterY = carMaxY;
+  vel = 0;
+  ignoreMilestoneId = -1;
+  currentMilestoneId = -1;
+
+  MILESTONES.forEach(m => m.el.classList.remove('done'));
+  updateProgress();
+  setScene(0);
+
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+
+  render();
+  updateGlow();
+
+  hint.textContent = 'Hold GAS to drive';
+  hint.classList.remove('hidden');
+
+  setTimeout(() => {
+    locked = false;
+    surpriseScreen.classList.remove('hidden');
+    loadingScreen.classList.add('hidden');
+  }, 400);
+}
+
 closeBtn.addEventListener('click', closeCard);
 modal.addEventListener('click', (e) => { if (e.target === modal) closeCard(); });
+
+endGate.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (locked) return;
+  resetToStart();
+});
 
 function bindPedal(el, setter) {
   el.addEventListener('pointerdown', e => {
@@ -771,6 +895,7 @@ const surpriseBtn = document.getElementById('surpriseBtn');
 
 surpriseBtn.addEventListener('click', () => {
   bgMusic.volume = 0.75;
+  bgMusic.currentTime = 0;
   bgMusic.play().catch(() => {});
   surpriseScreen.classList.add('hidden');
   loadingScreen.classList.remove('hidden');
